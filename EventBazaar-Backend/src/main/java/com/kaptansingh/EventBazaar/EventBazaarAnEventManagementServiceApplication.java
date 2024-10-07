@@ -9,5 +9,4 @@ public class EventBazaarAnEventManagementServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EventBazaarAnEventManagementServiceApplication.class, args);
 	}
-
 }
