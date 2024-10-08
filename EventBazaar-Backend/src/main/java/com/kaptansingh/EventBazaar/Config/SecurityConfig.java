@@ -23,6 +23,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity // Enables method-level security annotations like @PreAuthorize, @Secured, etc.
 public class SecurityConfig {
 
+    public static final String[] PUBLIC_URLS = {
+            "/user/signup",
+            "/user/signin",
+            "/v1/api-docs/**",
+            "/v2/api-docs/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/webjars/**"
+    };
+
     @Autowired
     private CustomUserDetailsService customUserDetailsService; // Service to load user-specific data for authentication
 
@@ -39,7 +52,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests((authorizeRequests) ->
                 authorizeRequests
-                        .requestMatchers("user/signup", "user/signin").permitAll()
+                        .requestMatchers(PUBLIC_URLS).permitAll()
                         .requestMatchers("user/getAll").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
