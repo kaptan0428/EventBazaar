@@ -24,8 +24,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     public static final String[] PUBLIC_URLS = {
-            "/user/signup",
-            "/user/signin",
+            "/api/auth/register",
+            "/api/auth/login",
 
             "/v1/api-docs/**",
             "/v2/api-docs/**",
@@ -54,7 +54,6 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorizeRequests) ->
                 authorizeRequests
                         .requestMatchers(PUBLIC_URLS).permitAll()
-                        .requestMatchers("user/getAll").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
         // Disables session management, forcing stateless requests (ideal for JWT)
