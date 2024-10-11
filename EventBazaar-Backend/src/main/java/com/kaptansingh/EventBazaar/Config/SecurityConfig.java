@@ -26,6 +26,7 @@ public class SecurityConfig {
     public static final String[] PUBLIC_URLS = {
             "/user/signup",
             "/user/signin",
+
             "/v1/api-docs/**",
             "/v2/api-docs/**",
             "/v3/api-docs/**",

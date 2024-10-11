@@ -26,6 +26,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
+    @ExceptionHandler(IncorrectPasswordException.class)
+    public ResponseEntity<?> handleUserNotFoundException(IncorrectPasswordException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

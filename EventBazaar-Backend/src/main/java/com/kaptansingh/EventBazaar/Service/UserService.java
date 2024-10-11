@@ -1,23 +1,24 @@
 package com.kaptansingh.EventBazaar.Service;
 
+import com.kaptansingh.EventBazaar.Dto.UserUpdateRequestDto;
 import com.kaptansingh.EventBazaar.Exception.EmailAlreadyInUseException;
+import com.kaptansingh.EventBazaar.Exception.IncorrectPasswordException;
 import com.kaptansingh.EventBazaar.Exception.UserNotFoundException;
 import com.kaptansingh.EventBazaar.Model.User;
 import com.kaptansingh.EventBazaar.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor // Lombok will automatically create a constructor for 'final' fields(Dependency Injection)
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public boolean existsByEmail(String email){
         return userRepository.existsByEmail(email);
@@ -50,5 +51,37 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+
+    public void updateUser(String email, UserUpdateRequestDto userUpdateRequestDto){
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if(userOptional.isEmpty()){
+            throw new UserNotFoundException("User not found!");
+        }
+        User user = userOptional.get();
+
+        user.setFirstName(userUpdateRequestDto.getFirstName());
+        user.setLastName(userUpdateRequestDto.getLastName());
+        user.setPhone(userUpdateRequestDto.getPhone());
+
+        userRepository.save(user);
+    }
+
+    public void updatePassword(String email, String oldPassword, String newPassword){
+
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if(userOptional.isEmpty()){
+            throw new UserNotFoundException("User not found!");
+        }
+        User user = userOptional.get();
+
+        if(!passwordEncoder.matches(oldPassword, user.getPassword())){
+            throw new IncorrectPasswordException("Incorrect password!");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+
+        userRepository.save(user);
     }
 }
