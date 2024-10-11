@@ -1,6 +1,9 @@
 package com.kaptansingh.EventBazaar.Controller;
 
-import com.kaptansingh.EventBazaar.Dto.*;
+import com.kaptansingh.EventBazaar.Dto.AuthDto.LoginRequestDto;
+import com.kaptansingh.EventBazaar.Dto.AuthDto.LoginResponseDto;
+import com.kaptansingh.EventBazaar.Dto.AuthDto.PasswordUpdateRequestDto;
+import com.kaptansingh.EventBazaar.Dto.AuthDto.UserRegistrationRequestDto;
 import com.kaptansingh.EventBazaar.Model.User;
 import com.kaptansingh.EventBazaar.Service.AuthService;
 import com.kaptansingh.EventBazaar.Utils.JwtUtils.JwtUtils;
@@ -9,7 +12,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -91,7 +93,7 @@ public class AuthController {
     }
 
 
-    @PostMapping("/reset-password")
+    @PutMapping("/reset-password")
     public ResponseEntity<?> updatePassword(@Valid @RequestBody PasswordUpdateRequestDto updatePasswordDto){
         if(!updatePasswordDto.getNewPassword().equals(updatePasswordDto.getConfirmPassword())){
             return ResponseEntity.badRequest().body("Passwords do not match!");

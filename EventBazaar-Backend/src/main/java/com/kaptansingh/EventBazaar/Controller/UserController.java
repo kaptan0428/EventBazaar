@@ -1,7 +1,7 @@
 package com.kaptansingh.EventBazaar.Controller;
 
 
-import com.kaptansingh.EventBazaar.Dto.UserUpdateRequestDto;
+import com.kaptansingh.EventBazaar.Dto.UserDto.UserUpdateRequestDto;
 import com.kaptansingh.EventBazaar.Model.User;
 import com.kaptansingh.EventBazaar.Service.UserService;
 import com.kaptansingh.EventBazaar.Utils.SecurityUtils.SecurityUtils;
@@ -24,7 +24,7 @@ public class UserController {
 
 
 
-    @GetMapping("/me")
+    @GetMapping("/")
     public ResponseEntity<?> getCurrentUser(){
         UserDetails userDetails = securityUtils.getAuthenticatedUserDetails();
         String username = userDetails.getUsername();
@@ -34,7 +34,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/me")
+    @PutMapping("/")
     public ResponseEntity<?> updateUser(@Valid @RequestBody UserUpdateRequestDto userDto){
 
         UserDetails userDetails = securityUtils.getAuthenticatedUserDetails();
@@ -51,7 +51,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAllUsers(){
         List<User> users = userService.getAllUsers();

@@ -1,4 +1,4 @@
-package com.kaptansingh.EventBazaar.Dto;
+package com.kaptansingh.EventBazaar.Dto.AuthDto;
 
 
 import jakarta.validation.constraints.Email;

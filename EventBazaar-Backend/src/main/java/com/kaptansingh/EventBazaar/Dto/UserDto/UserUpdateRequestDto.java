@@ -1,4 +1,4 @@
-package com.kaptansingh.EventBazaar.Dto;
+package com.kaptansingh.EventBazaar.Dto.UserDto;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;

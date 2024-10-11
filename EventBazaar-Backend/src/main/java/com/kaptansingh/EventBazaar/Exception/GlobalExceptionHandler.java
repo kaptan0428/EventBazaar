@@ -31,6 +31,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
+    @ExceptionHandler(EventNotFoundException.class)
+    public ResponseEntity<?> handleEventNotFoundException(EventNotFoundException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {

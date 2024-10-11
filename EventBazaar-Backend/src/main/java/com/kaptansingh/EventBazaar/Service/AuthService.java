@@ -1,6 +1,5 @@
 package com.kaptansingh.EventBazaar.Service;
 
-import com.kaptansingh.EventBazaar.Dto.UserUpdateRequestDto;
 import com.kaptansingh.EventBazaar.Exception.EmailAlreadyInUseException;
 import com.kaptansingh.EventBazaar.Exception.IncorrectPasswordException;
 import com.kaptansingh.EventBazaar.Exception.UserNotFoundException;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

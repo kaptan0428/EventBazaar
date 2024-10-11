@@ -1,6 +1,6 @@
 package com.kaptansingh.EventBazaar.Service;
 
-import com.kaptansingh.EventBazaar.Dto.UserUpdateRequestDto;
+import com.kaptansingh.EventBazaar.Dto.UserDto.UserUpdateRequestDto;
 import com.kaptansingh.EventBazaar.Exception.UserNotFoundException;
 import com.kaptansingh.EventBazaar.Model.User;
 import com.kaptansingh.EventBazaar.Repository.UserRepository;
