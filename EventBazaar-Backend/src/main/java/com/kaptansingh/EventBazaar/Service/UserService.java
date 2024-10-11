@@ -1,13 +1,10 @@
 package com.kaptansingh.EventBazaar.Service;
 
 import com.kaptansingh.EventBazaar.Dto.UserUpdateRequestDto;
-import com.kaptansingh.EventBazaar.Exception.EmailAlreadyInUseException;
-import com.kaptansingh.EventBazaar.Exception.IncorrectPasswordException;
 import com.kaptansingh.EventBazaar.Exception.UserNotFoundException;
 import com.kaptansingh.EventBazaar.Model.User;
 import com.kaptansingh.EventBazaar.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,36 +15,23 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    public boolean existsByEmail(String email){
-        return userRepository.existsByEmail(email);
-    }
 
     public User findByID(Long id){
-        if (userRepository.findById(id).isEmpty()) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if(userOptional.isEmpty()){
             throw new UserNotFoundException("User not found!");
         }
-        return userRepository.findById(id).get();
+        return userOptional.get();
     }
 
-    public String encodePassword(String password){
-        return passwordEncoder.encode(password);
-    }
 
-    public void saveUser(User user){
-
-        // check if user already exists
-        if(userRepository.existsByEmail(user.getEmail())){
-            throw new EmailAlreadyInUseException("Email already in use!");
+    public User findByEmail(String email){
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if(userOptional.isEmpty()){
+            throw new UserNotFoundException("User not found!");
         }
-
-        //Encode the password
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        userRepository.save(user);
+        return userOptional.get();
     }
-
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -64,23 +48,6 @@ public class UserService {
         user.setFirstName(userUpdateRequestDto.getFirstName());
         user.setLastName(userUpdateRequestDto.getLastName());
         user.setPhone(userUpdateRequestDto.getPhone());
-
-        userRepository.save(user);
-    }
-
-    public void updatePassword(String email, String oldPassword, String newPassword){
-
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if(userOptional.isEmpty()){
-            throw new UserNotFoundException("User not found!");
-        }
-        User user = userOptional.get();
-
-        if(!passwordEncoder.matches(oldPassword, user.getPassword())){
-            throw new IncorrectPasswordException("Incorrect password!");
-        }
-
-        user.setPassword(passwordEncoder.encode(newPassword));
 
         userRepository.save(user);
     }
