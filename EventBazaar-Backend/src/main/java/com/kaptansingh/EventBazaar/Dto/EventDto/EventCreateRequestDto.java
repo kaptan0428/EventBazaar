@@ -2,6 +2,7 @@ package com.kaptansingh.EventBazaar.Dto.EventDto;
 
 import com.kaptansingh.EventBazaar.Enum.EventCategory;
 import com.kaptansingh.EventBazaar.Enum.EventStatus;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -29,6 +30,10 @@ public class EventCreateRequestDto {
 
     @NotEmpty(message = "Contact is required")
     private String contact;
+
+    @NotNull(message = "Quantity is required")
+    @Min(value = 1, message = "Quantity should be at least 1")
+    private Integer quantity;
 
     @NotNull(message = "Price is required")
     private Integer price;

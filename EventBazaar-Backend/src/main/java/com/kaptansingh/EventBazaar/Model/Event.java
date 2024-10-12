@@ -3,6 +3,7 @@ package com.kaptansingh.EventBazaar.Model;
 import com.kaptansingh.EventBazaar.Enum.EventCategory;
 import com.kaptansingh.EventBazaar.Enum.EventStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,6 +46,10 @@ public class Event {
 
     @Column(name = "contact", nullable = false)
     private String contact;
+
+    @Column(name = "quantity", nullable = false)
+    @Min(value = 1, message = "Quantity should be at least 1")
+    private Integer quantity;
 
     @Column(name = "price", nullable = false)
     private Integer price;

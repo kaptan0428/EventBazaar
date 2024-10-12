@@ -7,6 +7,7 @@ import com.kaptansingh.EventBazaar.Exception.UserNotFoundException;
 import com.kaptansingh.EventBazaar.Model.Event;
 import com.kaptansingh.EventBazaar.Model.User;
 import com.kaptansingh.EventBazaar.Repository.EventRepository;
+import com.kaptansingh.EventBazaar.Repository.TicketRepository;
 import com.kaptansingh.EventBazaar.Repository.UserRepository;
 import com.kaptansingh.EventBazaar.Utils.SecurityUtils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
+    private final TicketRepository ticketRepository;
     private final SecurityUtils securityUtils;
 
     public void createEvent(EventCreateRequestDto eventDto) {
@@ -45,6 +47,10 @@ public class EventService {
 
     public void deleteEvent(Long eventId) {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException("Event not found!"));
+
+        // Also Delete All the tickets of this event
+        ticketRepository.deleteByEventId(eventId);
+
         eventRepository.delete(event);
     }
 
@@ -89,6 +95,7 @@ public class EventService {
         event.setEndTime(eventDto.getEndTime());
         event.setLocation(eventDto.getLocation());
         event.setCategory(eventDto.getCategory());
+        event.setQuantity(eventDto.getQuantity());
         event.setPrice(eventDto.getPrice());
         event.setContact(eventDto.getContact());
         event.setImageUrl(eventDto.getImageUrl());
@@ -114,6 +121,9 @@ public class EventService {
         }
         if(eventDto.getCategory() != null) {
             event.setCategory(eventDto.getCategory());
+        }
+        if(eventDto.getQuantity() != null){
+            event.setQuantity(eventDto.getQuantity());
         }
         if(eventDto.getPrice() != null) {
             event.setPrice(eventDto.getPrice());

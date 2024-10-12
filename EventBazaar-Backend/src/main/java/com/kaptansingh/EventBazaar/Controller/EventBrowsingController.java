@@ -1,13 +1,15 @@
 package com.kaptansingh.EventBazaar.Controller;
 
+import com.kaptansingh.EventBazaar.Dto.TicketDto.TicketCreateRequestDto;
 import com.kaptansingh.EventBazaar.Model.Event;
+import com.kaptansingh.EventBazaar.Model.Ticket;
 import com.kaptansingh.EventBazaar.Service.EventService;
+import com.kaptansingh.EventBazaar.Service.TicketService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ import java.util.List;
 public class EventBrowsingController {
 
     private final EventService eventService;
+    private final TicketService ticketService;
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -27,8 +30,16 @@ public class EventBrowsingController {
 
     @GetMapping("{eventId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> getEventById(Long eventId){
+    public ResponseEntity<?> getEventById(@PathVariable Long eventId){
         Event event = eventService.findByID(eventId);
         return ResponseEntity.ok(event);
     }
+
+    @PostMapping("/{eventId}/book")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<?> bookEvent(@PathVariable Long eventId, @Valid @RequestBody TicketCreateRequestDto ticketDto){
+        Ticket ticket = ticketService.createTicket(eventId, ticketDto);
+        return ResponseEntity.ok(ticket);
+    }
+
 }

@@ -2,7 +2,9 @@ package com.kaptansingh.EventBazaar.Controller;
 
 
 import com.kaptansingh.EventBazaar.Dto.UserDto.UserUpdateRequestDto;
+import com.kaptansingh.EventBazaar.Model.Ticket;
 import com.kaptansingh.EventBazaar.Model.User;
+import com.kaptansingh.EventBazaar.Service.TicketService;
 import com.kaptansingh.EventBazaar.Service.UserService;
 import com.kaptansingh.EventBazaar.Utils.SecurityUtils.SecurityUtils;
 import jakarta.validation.Valid;
@@ -20,6 +22,7 @@ import java.util.List;
 public class UserController {
 
     private final SecurityUtils securityUtils;
+    private final TicketService ticketService;
     private final UserService userService;
 
 
@@ -57,4 +60,12 @@ public class UserController {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
+
+    @GetMapping("/tickets")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<?> getTickets(){
+        List<Ticket> tickets = ticketService.getTickets();
+        return ResponseEntity.ok(tickets);
+    }
+
 }

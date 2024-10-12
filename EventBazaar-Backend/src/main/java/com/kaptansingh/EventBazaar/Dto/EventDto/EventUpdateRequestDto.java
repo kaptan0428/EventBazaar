@@ -15,6 +15,7 @@ public class EventUpdateRequestDto {
     private Timestamp startTime;
     private Timestamp endTime;
     private String contact;
+    private Integer quantity;
     private Integer price;
     private String imageUrl;
     private EventCategory category;
