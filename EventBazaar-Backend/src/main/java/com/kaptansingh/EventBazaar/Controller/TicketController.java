@@ -15,7 +15,6 @@ import java.util.List;
 @RestController // Marks this class as a REST controller where each method returns a ResponseEntity or JSON response
 @RequestMapping("/api/tickets") // Base path for all endpoints in this controller
 @RequiredArgsConstructor // Lombok will automatically create a constructor for final fields (Dependency Injection)
-
 public class TicketController {
 
     private final TicketService ticketService;
