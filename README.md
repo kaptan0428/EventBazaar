@@ -41,5 +41,7 @@ The project uses the following dependencies:
   - `jjwt-api`, `jjwt-impl`, `jjwt-jackson`: For JWT token creation and validation.
 - **Springdoc OpenAPI**:
   - `springdoc-openapi-starter-webmvc-ui`: For API documentation.
+  - To Access: "http://localhost:8080/swagger-ui/index.html"
 - **Database**:
   - `PostgreSQL`: For data persistence.
+  - To run server(mac): `LC_ALL="C" /opt/homebrew/opt/postgresql@17/bin/postgres -D /opt/homebrew/var/postgresql@17`
