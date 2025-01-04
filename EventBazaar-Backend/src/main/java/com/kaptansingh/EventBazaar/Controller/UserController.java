@@ -19,6 +19,7 @@ import java.util.List;
 @RestController // Marks this class as a REST controller where each method returns a ResponseEntity or JSON response
 @RequestMapping("/api/users") // Base path for all endpoints in this controller
 @RequiredArgsConstructor // Lombok will automatically create a constructor for final fields (Dependency Injection)
+@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
 
     private final SecurityUtils securityUtils;

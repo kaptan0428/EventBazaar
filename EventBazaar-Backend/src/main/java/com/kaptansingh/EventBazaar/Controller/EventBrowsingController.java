@@ -28,7 +28,7 @@ public class EventBrowsingController {
         return ResponseEntity.ok(events);
     }
 
-    @GetMapping("{eventId}")
+    @GetMapping("/{eventId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getEventById(@PathVariable Long eventId){
         Event event = eventService.findByID(eventId);

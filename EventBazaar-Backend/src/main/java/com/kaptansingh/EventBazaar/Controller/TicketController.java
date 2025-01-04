@@ -19,7 +19,7 @@ public class TicketController {
 
     private final TicketService ticketService;
 
-    @PostMapping("/{ticketId}/cancel")
+    @DeleteMapping("/{ticketId}/cancel")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> cancelTicket(@PathVariable Long ticketId){
         ticketService.cancelTicket(ticketId);

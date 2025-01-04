@@ -6,6 +6,7 @@ import com.kaptansingh.EventBazaar.Utils.JwtUtils.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -54,6 +55,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorizeRequests) ->
                 authorizeRequests
                         .requestMatchers(PUBLIC_URLS).permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allows pre-flight requests
                         .anyRequest().authenticated());
 
         // Disables session management, forcing stateless requests (ideal for JWT)

@@ -1,0 +1,26 @@
+/* Header.css */
+
+.header-appbar {
+    
+}
+
+.header-toolbar {
+    background-color: #2D4059;
+}
+
+
+.header-logo {
+    height: 35px;
+    width: auto;
+}
+
+.header-buttons {
+    margin-left: auto; /* Aligns the button to the right side */
+}
+.header-menu-button{
+    margin-left: auto;
+}
+
+.header-button:hover {
+    filter: brightness(0.5);
+}

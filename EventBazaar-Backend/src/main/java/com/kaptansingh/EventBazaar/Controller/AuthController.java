@@ -82,18 +82,12 @@ public class AuthController {
 
         String jwtToken = jwtUtils.generateTokenFromUsername(userDetails);
 
-        // Retrieve the user's roles and convert them to a list of strings
-        List<String> roles = userDetails.getAuthorities()
-                .stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-
-        LoginResponseDto loginResponseDto = new LoginResponseDto(jwtToken, userDetails.getUsername(), roles);
+        LoginResponseDto loginResponseDto = new LoginResponseDto(jwtToken);
         return ResponseEntity.ok(loginResponseDto);
     }
 
 
-    @PutMapping("/reset-password")
+    @PutMapping("/update-password")
     public ResponseEntity<?> updatePassword(@Valid @RequestBody PasswordUpdateRequestDto updatePasswordDto){
         if(!updatePasswordDto.getNewPassword().equals(updatePasswordDto.getConfirmPassword())){
             return ResponseEntity.badRequest().body("Passwords do not match!");
