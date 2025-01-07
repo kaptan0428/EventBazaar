@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AppBar, Toolbar, IconButton, Button, Drawer, List, ListItem, ListItemText, useMediaQuery } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Toolbar, IconButton, Button, Menu, MenuItem, Tooltip } from '@mui/material';
+import { LoginOutlined, LogoutOutlined, AccountBoxOutlined } from '@mui/icons-material';
 import AuthService from '../../services/AuthService';
 import './Header.css';
+import { AccountCircle } from '@mui/icons-material';
 
 const Header: React.FC = () => {
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const navigate = useNavigate();
     const location = useLocation();
     const isLoggedIn = !!localStorage.getItem('jwtToken');
-    const isSmallScreen = useMediaQuery('(max-width:600px)');
-    const [drawerOpen, setDrawerOpen] = useState(false);
 
     const handleLogin = () => {
         navigate('/login');
-        setDrawerOpen(false);
     };
 
     const handleLogout = () => {
@@ -22,38 +21,13 @@ const Header: React.FC = () => {
         window.location.reload();
     };
 
-    const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-        if (event.type === 'keydown' && ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')) {
-            return;
-        }
-        setDrawerOpen(open);
+    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
     };
 
-    const menuItems = (
-        <List>
-            {location.pathname !== '/' && (
-                <ListItem component="button" onClick={() => { navigate('/'); setDrawerOpen(false); }}>
-                    <ListItemText primary="Home" />
-                </ListItem>
-            )}
-            {location.pathname !== '/profile' && (
-                <ListItem component="button" onClick={() => { navigate('/profile'); setDrawerOpen(false); }}>
-                    <ListItemText primary="Profile" />
-                </ListItem>
-            )}
-            {isLoggedIn ? (
-                <ListItem component="button" onClick={handleLogout}>
-                    <ListItemText primary="Logout" />
-                </ListItem>
-            ) : (
-                location.pathname !== '/login' && (
-                    <ListItem component="button" onClick={handleLogin}>
-                        <ListItemText primary="Login" />
-                    </ListItem>
-                )
-            )}
-        </List>
-    );
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <AppBar position="sticky" className="header-appbar">
@@ -62,38 +36,51 @@ const Header: React.FC = () => {
                     <img src="/evs-logoName.png" alt="EventBazaar Logo" className="header-logo" />
                 </IconButton>
 
-                {isSmallScreen ? (
-                    <>
-                        <div className="header-menu-button">
-                            <IconButton edge="end" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
-                                <MenuIcon />
+                <div className='header-buttons'>
+                    {isLoggedIn ? (
+                        <div>
+                            <IconButton
+                                aria-controls='manu-appbar'
+                                onClick={handleMenu}
+                                color="inherit">
+                                <AccountCircle />
                             </IconButton>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorEl)}
+                                onClose={handleClose}
+                            >
+                                <Tooltip title="Account">
+                                <MenuItem onClick={() => navigate('/profile')}>
+                                    <AccountBoxOutlined />
+                                </MenuItem>
+                                </Tooltip>
+                                <Tooltip title="Logout">
+                                <MenuItem onClick={handleLogout}>
+                                    <LogoutOutlined />
+                                </MenuItem>
+                                </Tooltip>
+                            </Menu>
                         </div>
-                        <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)} className="header-drawer">
-                            {menuItems}
-                        </Drawer>
-                    </>
-                ) : (
-                    <div className="header-buttons">
-                        {location.pathname !== '/' && (
-                            <Button color="inherit" className="header-button" onClick={() => navigate('/')}>Home</Button>
-                        )}
-                        {location.pathname !== '/profile' && (
-                            <Button color="inherit" className="header-button" onClick={() => navigate('/profile')}>Profile</Button>
-                        )}
-                        {isLoggedIn ? (
-                            <Button color="inherit" className="header-button" onClick={handleLogout}>
-                                Logout
+
+                    ) : (
+                        location.pathname !== '/login' && (
+                            <Button color="inherit" className="header-button" onClick={handleLogin}>
+                                <LoginOutlined /> 
                             </Button>
-                        ) : (
-                            location.pathname !== '/login' && (
-                                <Button color="inherit" className="header-button" onClick={handleLogin}>
-                                    Login
-                                </Button>
-                            )
-                        )}
-                    </div>
-                )}
+                        )
+                    )}
+                </div>
             </Toolbar>
         </AppBar>
     );
