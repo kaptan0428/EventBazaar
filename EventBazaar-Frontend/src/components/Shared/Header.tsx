@@ -41,16 +41,6 @@ const Header: React.FC = () => {
                     <ListItemText primary="Profile" />
                 </ListItem>
             )}
-            {location.pathname !== '/about' && (
-                <ListItem component="button" onClick={() => { navigate('/about'); setDrawerOpen(false); }}>
-                    <ListItemText primary="About" />
-                </ListItem>
-            )}
-            {location.pathname !== '/contact' && (
-                <ListItem component="button" onClick={() => { navigate('/contact'); setDrawerOpen(false); }}>
-                    <ListItemText primary="Contact" />
-                </ListItem>
-            )}
             {isLoggedIn ? (
                 <ListItem component="button" onClick={handleLogout}>
                     <ListItemText primary="Logout" />
@@ -90,12 +80,6 @@ const Header: React.FC = () => {
                         )}
                         {location.pathname !== '/profile' && (
                             <Button color="inherit" className="header-button" onClick={() => navigate('/profile')}>Profile</Button>
-                        )}
-                        {location.pathname !== '/about' && (
-                            <Button color="inherit" className="header-button" onClick={() => navigate('/about')}>About</Button>
-                        )}
-                        {location.pathname !== '/contact' && (
-                            <Button color="inherit" className="header-button" onClick={() => navigate('/contact')}>Contact</Button>
                         )}
                         {isLoggedIn ? (
                             <Button color="inherit" className="header-button" onClick={handleLogout}>

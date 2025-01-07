@@ -1,11 +1,14 @@
 import React from 'react';
-import { Box, Container, Link, Typography } from '@mui/material';
+import { Box, Container, Link, Typography, Button } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
+import { useNavigate } from 'react-router-dom';
+
 const Footer: React.FC = () => {
+    const navigate = useNavigate();
     return (
         <Box
             sx={{
@@ -26,6 +29,23 @@ const Footer: React.FC = () => {
                     <Typography variant="body2">
                         © {new Date().getFullYear()} EventBazaar. All rights reserved.
                     </Typography>
+
+                    
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                        <Button
+                            sx={{color:'white'}}
+                            onClick={() => navigate('/contact')}
+                        >
+                            Contact
+                        </Button>
+                        <Button
+                            sx={{color:'white'}}
+                            onClick={() => navigate('/about')}
+                        >
+                            About
+                        </Button>
+                    </Box>
+
                     <Box sx={{ display: 'flex', gap: 2 }}>
                         <Link href="#" color="inherit" target="_blank" rel="noopener noreferrer">
                             <FacebookIcon fontSize="small" />

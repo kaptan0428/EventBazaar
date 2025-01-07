@@ -66,9 +66,6 @@ const Home: React.FC = () => {
                     <Box className="divider" sx={{ width: '100%', height: '2px', backgroundColor: '#000', margin: '20px 0' }} />
 
                     <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 2 }}>
-                        <Button variant="contained" color="primary" onClick={() => navigate('/profile')}>
-                            Profile
-                        </Button>
                         <Button variant="contained" color="primary" onClick={() => navigate('/users')}>
                             All Users
                         </Button>
