@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AppBar, Toolbar, IconButton, Button, Menu, MenuItem, Tooltip } from '@mui/material';
+import {useSelector, useDispatch} from 'react-redux'
+import { selectEmail } from '../../features/user/userSelectors';
+
+import { AppBar, Toolbar, IconButton, Button, Menu, MenuItem, Box } from '@mui/material';
 import { LoginOutlined, LogoutOutlined, AccountBoxOutlined } from '@mui/icons-material';
 import AuthService from '../../services/AuthService';
 import './Header.css';
 import { AccountCircle } from '@mui/icons-material';
 
 const Header: React.FC = () => {
+    const email = useSelector(selectEmail);
+    const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const navigate = useNavigate();
     const location = useLocation();
@@ -17,7 +22,7 @@ const Header: React.FC = () => {
     };
 
     const handleLogout = () => {
-        AuthService.logout();
+        AuthService.logout(dispatch);
         window.location.reload();
     };
 
@@ -43,7 +48,7 @@ const Header: React.FC = () => {
                                 aria-controls='manu-appbar'
                                 onClick={handleMenu}
                                 color="inherit">
-                                <AccountCircle />
+                                {email} <AccountCircle />
                             </IconButton>
                             <Menu
                                 id="menu-appbar"
@@ -60,16 +65,22 @@ const Header: React.FC = () => {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <Tooltip title="Account">
+                                
                                 <MenuItem onClick={() => navigate('/profile')}>
-                                    <AccountBoxOutlined />
+                                    <Box>
+                                    <AccountBoxOutlined />  Account 
+                                    </Box>
                                 </MenuItem>
-                                </Tooltip>
-                                <Tooltip title="Logout">
+                                <MenuItem onClick={() => navigate('/users')}>
+                                    <Box>
+                                    <AccountBoxOutlined />  All Users 
+                                    </Box>
+                                </MenuItem>
                                 <MenuItem onClick={handleLogout}>
-                                    <LogoutOutlined />
+                                    <Box>
+                                        <LogoutOutlined />  Logout
+                                    </Box>
                                 </MenuItem>
-                                </Tooltip>
                             </Menu>
                         </div>
 
