@@ -66,30 +66,11 @@ const Home: React.FC = () => {
                     <Box className="divider" sx={{ width: '100%', height: '2px', backgroundColor: '#000', margin: '20px 0' }} />
 
                     <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 2 }}>
-                        <Button variant="contained" color="primary" onClick={() => navigate('/users')}>
-                            All Users
-                        </Button>
-                        <Button variant="contained" color="primary" onClick={() => navigate('/events')}>
-                            Events
-                        </Button>
+                        
                         <Button variant="contained" color="primary" onClick={() => navigate('/dashboard')}>
                             Dashboard
                         </Button>
-                        <Button variant="contained" color="primary" onClick={() => navigate('/create-event')}>
-                            Create Event
-                        </Button>
-                        <Button variant="contained" color="primary" onClick={() => navigate('/events')}>
-                            All Events
-                        </Button>
-                        <Button variant="contained" color="primary" onClick={() => navigate('/my-events')}>
-                            My Events
-                        </Button>
-                        <Button variant="contained" color="primary" onClick={() => navigate('/tickets')}>
-                            All Tickets
-                        </Button>
-                        <Button variant="contained" color="primary" onClick={() => navigate('/my-tickets')}>
-                            My Tickets
-                        </Button>
+                
                         <Box>
                             <input
                                 type="number"

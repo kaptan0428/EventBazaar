@@ -55,6 +55,7 @@ const App: React.FC = () => {
                             <Route path="/logout" element={<Logout />} />
                             <Route path="/register" element={<Register />} />
                             <Route path="/events/:eventId" element={<Event />} />
+                            <Route path="/events" element={<AllEvents />} />
 
                             <Route path="/profile" element={<AuthenticatedRoute element={<Profile />} />}  />
                             <Route path="/update-password" element={<AuthenticatedRoute element={<PasswordUpdate />} />} />
@@ -63,7 +64,6 @@ const App: React.FC = () => {
                             <Route path="/my-tickets" element={<AuthenticatedRoute element={<MyTickets />} />} />
 
                             <Route path="/users" element={<PrivateRoute element={<AllUsers />} role="ADMIN" />} />
-                            <Route path="/events" element={<PrivateRoute element={<AllEvents />} role="ADMIN" />} />
                             <Route path="/tickets" element={<PrivateRoute element={<AllTickets />} role="ADMIN" />}/>
                             <Route path="/users/:userId" element={<PrivateRoute element={<UserDetails />} role="ADMIN" />}/>
 

@@ -20,10 +20,12 @@ const Header: React.FC = () => {
     const isLoggedIn = !!localStorage.getItem('jwtToken');
 
     let firstName: string | null = null;
+    let roles: string[] = [];
     const jwtToken = localStorage.getItem('jwtToken');
     if (jwtToken) {
-        const decodedToken: { firstName: string } = jwtDecode(jwtToken);
+        const decodedToken: { firstName: string; roles: string[] } = jwtDecode(jwtToken);
         firstName = decodedToken.firstName;
+        roles = decodedToken.roles;
     }
 
     const handleLogin = () => {
@@ -83,11 +85,52 @@ const Header: React.FC = () => {
                                         <AccountBoxOutlined />  Account
                                     </Box>
                                 </MenuItem>
-                                <MenuItem onClick={() => navigate('/users')}>
+                                {roles.includes('ADMIN') && (
+                                    <MenuItem onClick={() => navigate('/users')}>
+                                        <Box>
+                                            <AccountBoxOutlined /> All Users
+                                        </Box>
+                                    </MenuItem>
+                                )}
+
+                                <MenuItem onClick={() => navigate('/events')}>
                                     <Box>
-                                        <AccountBoxOutlined />  All Users
+                                        <AccountBoxOutlined /> All Events
                                     </Box>
                                 </MenuItem>
+
+                                {roles.includes('ADMIN') && (
+                                    <MenuItem onClick={() => navigate('/tickets')}>
+                                        <Box>
+                                            <AccountBoxOutlined /> All Tickets
+                                        </Box>
+                                    </MenuItem>
+                                )}
+                                {roles.includes('ORGANIZER') && (
+                                    <MenuItem onClick={() => navigate('/create-event')}>
+                                        <Box>
+                                            <AccountBoxOutlined /> Create Event
+                                        </Box>
+                                    </MenuItem>
+                                )}
+                                {roles.includes('ORGANIZER') && (
+                                    <MenuItem onClick={() => navigate('/my-events')}>
+                                        <Box>
+                                            <AccountBoxOutlined /> My Events
+                                        </Box>
+                                    </MenuItem>
+                                )}
+
+                                {roles.includes('USER') && (
+                                    <MenuItem onClick={() => navigate('/my-tickets')}>
+                                        <Box>
+                                            <AccountBoxOutlined /> My Tickets
+                                        </Box>
+                                    </MenuItem>
+                                )}
+
+
+
                                 <MenuItem onClick={handleLogout}>
                                     <Box>
                                         <LogoutOutlined />  Logout

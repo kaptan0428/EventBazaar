@@ -48,7 +48,7 @@ const MyTickets: React.FC = () => {
     return (
         <Container>
             <Typography variant="h4" gutterBottom>
-                All Tickets
+                My Tickets
             </Typography>
             <Box display="flex" flexWrap="wrap" justifyContent="space-between">
                 {tickets.map((ticket) => (

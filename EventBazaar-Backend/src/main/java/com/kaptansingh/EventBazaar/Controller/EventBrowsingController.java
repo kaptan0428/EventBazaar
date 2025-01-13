@@ -22,14 +22,12 @@ public class EventBrowsingController {
     private final TicketService ticketService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAllEvents(){
         List<Event> events = eventService.getAllEvents();
         return ResponseEntity.ok(events);
     }
 
     @GetMapping("/{eventId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getEventById(@PathVariable Long eventId){
         Event event = eventService.findByID(eventId);
         return ResponseEntity.ok(event);
