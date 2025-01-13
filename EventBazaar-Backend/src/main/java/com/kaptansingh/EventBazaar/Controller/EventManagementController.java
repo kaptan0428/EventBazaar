@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController // Marks this class as a REST controller where each method returns a ResponseEntity or JSON response
-@PreAuthorize("hasRole('ROLE_ORGANIZER')") // This controller is only accessible to users with the 'ROLE_ADMIN' role
+@PreAuthorize("hasRole('ROLE_ORGANIZER')") // This controller is only accessible to users with the 'ROLE_ORGANIZER' role
 @RequestMapping("/api/events") // Base path for all endpoints in this controller
 @RequiredArgsConstructor // Lombok will automatically create a constructor for final fields (Dependency Injection)
 public class EventManagementController {

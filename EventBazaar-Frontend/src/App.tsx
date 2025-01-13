@@ -22,6 +22,9 @@ import MyTickets from './components/Tickets/MyTickets';
 import UserDetails from './pages/UserDetails';
 import About from './pages/About';
 import Contact from './components/Shared/Contact';
+import PrivateRoute from './hoc/PrivateRoute';
+import AuthenticatedRoute from './hoc/AuthenticatedRoute';
+import PermissionDenied from './components/Shared/PermissionDenied';
 
 const App: React.FC = () => {
     return (
@@ -43,23 +46,28 @@ const App: React.FC = () => {
 
                         <Routes>
                             <Route path="*" element={<div>Not Found</div>} />
+                            <Route path="/unauthorized" element={ < PermissionDenied /> }/>
+
                             <Route path="/" element={<Home />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/contact" element={<Contact />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/logout" element={<Logout />} />
                             <Route path="/register" element={<Register />} />
-                            <Route path="/profile" element={<Profile />} />
-                            <Route path="/update-password" element={<PasswordUpdate />} />
-                            <Route path="/users" element={<AllUsers />} />
-                            <Route path="/create-event" element={<CreateEvent />} />
-                            <Route path="/events" element={<AllEvents />} />
-                            <Route path="/my-events" element={<MyEvents />} />
                             <Route path="/events/:eventId" element={<Event />} />
-                            <Route path="/events/:eventId/book" element={<BookTicket />} />
-                            <Route path="/tickets" element={<AllTickets />} />
-                            <Route path="/my-tickets" element={<MyTickets />} />
-                            <Route path="/users/:userId" element={<UserDetails />} />
+
+                            <Route path="/profile" element={<AuthenticatedRoute element={<Profile />} />}  />
+                            <Route path="/update-password" element={<AuthenticatedRoute element={<PasswordUpdate />} />} />
+                            <Route path="/my-events" element={<AuthenticatedRoute element={<MyEvents />} />}  />
+                            <Route path="/events/:eventId/book" element={<AuthenticatedRoute element={<BookTicket />} />}/>
+                            <Route path="/my-tickets" element={<AuthenticatedRoute element={<MyTickets />} />} />
+
+                            <Route path="/users" element={<PrivateRoute element={<AllUsers />} role="ADMIN" />} />
+                            <Route path="/events" element={<PrivateRoute element={<AllEvents />} role="ADMIN" />} />
+                            <Route path="/tickets" element={<PrivateRoute element={<AllTickets />} role="ADMIN" />}/>
+                            <Route path="/users/:userId" element={<PrivateRoute element={<UserDetails />} role="ADMIN" />}/>
+
+                            <Route path="/create-event" element={<PrivateRoute element={<CreateEvent />} role="ORGANIZER" />} />
                         </Routes>
 
                     }
