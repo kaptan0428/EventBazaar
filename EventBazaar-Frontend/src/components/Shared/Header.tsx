@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {useSelector, useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { selectEmail } from '../../features/user/userSelectors';
+import { jwtDecode } from 'jwt-decode';
 
 import { AppBar, Toolbar, IconButton, Button, Menu, MenuItem, Box } from '@mui/material';
 import { LoginOutlined, LogoutOutlined, AccountBoxOutlined } from '@mui/icons-material';
@@ -11,11 +12,19 @@ import { AccountCircle } from '@mui/icons-material';
 
 const Header: React.FC = () => {
     const email = useSelector(selectEmail);
+
     const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const navigate = useNavigate();
     const location = useLocation();
     const isLoggedIn = !!localStorage.getItem('jwtToken');
+
+    let firstName: string | null = null;
+    const jwtToken = localStorage.getItem('jwtToken');
+    if (jwtToken) {
+        const decodedToken: { firstName: string } = jwtDecode(jwtToken);
+        firstName = decodedToken.firstName;
+    }
 
     const handleLogin = () => {
         navigate('/login');
@@ -48,7 +57,10 @@ const Header: React.FC = () => {
                                 aria-controls='manu-appbar'
                                 onClick={handleMenu}
                                 color="inherit">
-                                {email} <AccountCircle />
+                                <Box component="span" mr={1}>
+                                    {firstName}
+                                </Box>
+                                <AccountCircle />
                             </IconButton>
                             <Menu
                                 id="menu-appbar"
@@ -65,15 +77,15 @@ const Header: React.FC = () => {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                
+
                                 <MenuItem onClick={() => navigate('/profile')}>
                                     <Box>
-                                    <AccountBoxOutlined />  Account 
+                                        <AccountBoxOutlined />  Account
                                     </Box>
                                 </MenuItem>
                                 <MenuItem onClick={() => navigate('/users')}>
                                     <Box>
-                                    <AccountBoxOutlined />  All Users 
+                                        <AccountBoxOutlined />  All Users
                                     </Box>
                                 </MenuItem>
                                 <MenuItem onClick={handleLogout}>
@@ -87,7 +99,7 @@ const Header: React.FC = () => {
                     ) : (
                         location.pathname !== '/login' && (
                             <Button color="inherit" className="header-button" onClick={handleLogin}>
-                                <LoginOutlined /> 
+                                <LoginOutlined />
                             </Button>
                         )
                     )}

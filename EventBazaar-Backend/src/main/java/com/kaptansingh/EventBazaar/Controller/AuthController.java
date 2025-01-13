@@ -6,6 +6,7 @@ import com.kaptansingh.EventBazaar.Dto.AuthDto.PasswordUpdateRequestDto;
 import com.kaptansingh.EventBazaar.Dto.AuthDto.UserRegistrationRequestDto;
 import com.kaptansingh.EventBazaar.Model.User;
 import com.kaptansingh.EventBazaar.Service.AuthService;
+import com.kaptansingh.EventBazaar.Service.UserService;
 import com.kaptansingh.EventBazaar.Utils.JwtUtils.JwtUtils;
 import com.kaptansingh.EventBazaar.Utils.SecurityUtils.SecurityUtils;
 import jakarta.validation.Valid;
@@ -20,7 +21,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -34,6 +34,7 @@ public class AuthController {
     private final JwtUtils jwtUtils;
     private final SecurityUtils securityUtils; // SecurityUtils class is used to get the authenticated user's details
     private final AuthenticationManager authenticationManager; // Manages authentication process
+    private final UserService userService;
 
 
     /*
@@ -80,7 +81,9 @@ public class AuthController {
         // Retrieve the authenticated user's details
         UserDetails userDetails = securityUtils.getAuthenticatedUserDetails();
 
-        String jwtToken = jwtUtils.generateTokenFromUsername(userDetails);
+        User user = userService.findByEmail(userDetails.getUsername());
+
+        String jwtToken = jwtUtils.generateTokenFromUsername(userDetails, user.getFirstName(), user.getRoles());
 
         LoginResponseDto loginResponseDto = new LoginResponseDto(jwtToken);
         return ResponseEntity.ok(loginResponseDto);
