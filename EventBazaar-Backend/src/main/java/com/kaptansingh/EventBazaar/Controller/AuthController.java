@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -58,6 +59,24 @@ public class AuthController {
 
         authService.saveUser(user);
 
+        return ResponseEntity.ok("User registered successfully!");
+    }
+
+    // Register multiple users (for testing purposes)
+    @PostMapping("/registers")
+    public ResponseEntity<?> registerUsers( @RequestBody List<UserRegistrationRequestDto> userDtos){
+
+        for(UserRegistrationRequestDto userDto : userDtos){
+            User user = new User();
+            user.setFirstName(userDto.getFirstName());
+            user.setLastName(userDto.getLastName());
+            user.setEmail(userDto.getEmail());
+            user.setPassword(userDto.getPassword());
+            user.setRoles(userDto.getRoles());
+            user.setPhone(userDto.getPhone());
+
+            authService.saveUser(user);
+        }
         return ResponseEntity.ok("User registered successfully!");
     }
 
