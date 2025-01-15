@@ -20,4 +20,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     @Transactional
     @Query("DELETE FROM Ticket t WHERE t.event.id = :eventId")
     void deleteByEventId(@Param("eventId") Long eventId);
+
+    @Query("SELECT t.user.email FROM Ticket t WHERE t.event.id = :eventId")
+    List<String> findUsersByEventId(@Param("eventId") Long eventId);
 }

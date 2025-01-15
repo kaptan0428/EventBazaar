@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
                         <Link href="#" color="inherit" target="_blank" rel="noopener noreferrer">
                             <TwitterIcon fontSize="small" />
                         </Link>
-                        <Link href="#" color="inherit" target="_blank" rel="noopener noreferrer">
+                        <Link href="https://www.instagram.com/eventbazaar.app/" color="inherit" target="_blank" rel="noopener noreferrer">
                             <InstagramIcon fontSize="small" />
                         </Link>
                         <Link href="https://www.linkedin.com/in/kaptan-singh-kp/" color="inherit" target="_blank" rel="noopener noreferrer">

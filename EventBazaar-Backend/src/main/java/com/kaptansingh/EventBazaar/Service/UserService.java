@@ -37,6 +37,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<User> getAllUsersByRole(String role) {
+        return userRepository.findByRole(role);
+    }
+
 
     public void updateUser(String email, UserUpdateRequestDto userUpdateRequestDto){
         Optional<User> userOptional = userRepository.findByEmail(email);

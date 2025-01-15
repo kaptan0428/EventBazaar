@@ -5,6 +5,7 @@ import com.kaptansingh.EventBazaar.Dto.EventDto.EventCreateRequestDto;
 import com.kaptansingh.EventBazaar.Dto.EventDto.EventUpdateRequestDto;
 import com.kaptansingh.EventBazaar.Model.Event;
 import com.kaptansingh.EventBazaar.Service.EventService;
+import com.kaptansingh.EventBazaar.Service.MailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.List;
 public class EventManagementController {
 
     private final EventService eventService;
+    private final MailService mailService;
 
     @PostMapping("/")
     public ResponseEntity<?> createEvent(@Valid @RequestBody EventCreateRequestDto eventDto){
@@ -45,4 +47,16 @@ public class EventManagementController {
         return ResponseEntity.ok(events);
     }
 
+    // This endpoint will notify all the users of the event
+    @PostMapping("/{eventId}/notify")
+    public ResponseEntity<?> notifyUsers(@PathVariable Long eventId, @RequestParam String subject, @RequestParam String body){
+
+        List<String> emails = eventService.getAllUsersOfEvent(eventId);
+        try {
+            mailService.sendEmails(emails, subject, body);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Emails could not be sent");
+        }
+        return ResponseEntity.ok("Emails sent successfully");
+    }
 }

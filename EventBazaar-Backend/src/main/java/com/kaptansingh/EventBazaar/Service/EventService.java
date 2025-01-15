@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -67,6 +68,15 @@ public class EventService {
 
     public Event findByID(Long eventId) {
         return eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException("Event not found!"));
+    }
+
+    public List<String> getAllUsersOfEvent(Long eventId) {
+        User organizer = getLoggedInUserHelper();
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException("Event not found!"));
+        if(!Objects.equals(event.getOrganizerId(), organizer.getId())){
+            throw new EventNotFoundException("Event not found!");
+        }
+        return ticketRepository.findUsersByEventId(event.getId());
     }
 
 
