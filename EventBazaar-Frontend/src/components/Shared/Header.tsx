@@ -5,7 +5,7 @@ import { selectEmail } from '../../features/user/userSelectors';
 import { jwtDecode } from 'jwt-decode';
 
 import { AppBar, Toolbar, IconButton, Button, Menu, MenuItem, Box } from '@mui/material';
-import { LoginOutlined, LogoutOutlined, AccountBoxOutlined } from '@mui/icons-material';
+import { LoginOutlined, LogoutOutlined, AccountBoxOutlined, PersonAddOutlined, PersonAdd } from '@mui/icons-material';
 import AuthService from '../../services/AuthService';
 import './Header.css';
 import { AccountCircle } from '@mui/icons-material';
@@ -31,6 +31,9 @@ const Header: React.FC = () => {
     const handleLogin = () => {
         navigate('/login');
     };
+    const handleRegister = () => {
+        navigate('/register');
+    };
 
     const handleLogout = () => {
         AuthService.logout(dispatch);
@@ -53,7 +56,8 @@ const Header: React.FC = () => {
                 </IconButton>
 
                 <div className='header-buttons'>
-                    {isLoggedIn ? (
+                    
+                    {isLoggedIn && (
                         <div>
                             <IconButton
                                 aria-controls='manu-appbar'
@@ -139,13 +143,26 @@ const Header: React.FC = () => {
                             </Menu>
                         </div>
 
-                    ) : (
-                        location.pathname !== '/login' && (
-                            <Button color="inherit" className="header-button" onClick={handleLogin}>
-                                <LoginOutlined />
-                            </Button>
-                        )
                     )}
+
+                    
+
+                    {!isLoggedIn && (
+                        <>
+                            {location.pathname !== '/login' && (
+                                <Button color="inherit" onClick={handleLogin}>
+                                    <LoginOutlined />
+                                </Button>
+                            )}
+                            {location.pathname !== '/register' && (
+                                <Button color="inherit" onClick={handleRegister}>
+                                    <PersonAddOutlined />
+                                </Button>
+                            )}
+                        </>
+                    )}
+
+
                 </div>
             </Toolbar>
         </AppBar>
